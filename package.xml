@@ -3,7 +3,7 @@
 <package format="3">
   <name>forward_kinematics_pkg</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>a ROS 2 node that computes the forward kinematics of a 4-degree-of-freedom robotic manipulator</description>
   <maintainer email="aarushipd12@gmail.com">Aarushi</maintainer>
   <license>Apache License 2.0</license>
   <exec_depend>rclpy</exec_depend>
