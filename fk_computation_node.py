@@ -21,7 +21,8 @@ class fkNode(Node):
 			('j1', 0.0),
 			('j2', 0.0),
 			('j3', 0.0),
-			('j4', 0.0)
+			('j4', 0.0),
+			('use_radians', True)
 		])	 
 		
 		#node will publish msgs of type Point to the /robot_fk/end_effector_pose topic
@@ -68,19 +69,25 @@ class fkNode(Node):
             	])
         #All joints are revolute. Each joint axis is perpendicular to the previous one,  	
 	def compute_fk(self):
-        	angles = [
-        		self.get_parameter('j1').value,
-        		self.get_parameter('j2').value,
-        		self.get_parameter('j3').value,
-        		self.get_parameter('j4').value
-        	]
+        	#get current parameter values every time
+        	j1 = self.get_parameter('j1').value
+        	j2 = self.get_parameter('j2').value
+        	j3 = self.get_parameter('j3').value
+        	j4 = self.get_parameter('j4').value
+        	use_radians = self.get_parameter('use_radians').value
+
+		if not self.get_parameter('use_radians').value:
+        		j1 = np.deg2rad(j1)
+        		j2 = np.deg2rad(j2)
+        		j3 = np.deg2rad(j3)
+        		j4 = np.deg2rad(j4)
         	
         	#transformation matrices for each joint
         	# @ denotes linkage, or mathematically it is used for matrix multiplication here
-        	T1 = self.rotation_z(angles[0]) @ self.translation_x(self.link_length)
-        	T2 = self.rotation_y(angles[1]) @ self.translation_x(self.link_length)
-        	T3 = self.rotation_x(angles[2]) @ self.translation_x(self.link_length)
-        	T4 = self.rotation_y(angles[3]) @ self.translation_x(self.link_length)
+        	T1 = self.rotation_z(j1) @ self.translation_x(self.link_length)
+        	T2 = self.rotation_y(j2) @ self.translation_x(self.link_length)
+        	T3 = self.rotation_x(j3) @ self.translation_x(self.link_length)
+        	T4 = self.rotation_y(j4) @ self.translation_x(self.link_length)
         	
         	#combined transformation matrix
         	T_combined = T1 @ T2 @ T3 @ T4
