@@ -98,7 +98,7 @@ class fkNode(Node):
         	msg = Point()
         	msg.x, msg.y, msg.z = position
         	self.publisher_.publish(msg)
-        	self.get_logger().info(f'End effector position: x={msg.x:.2f}, y={msg.y:.2f}, z={msg.z:.2f}')		#logs position to console
+        	self.get_logger().info(f'Joint angles: j1={j1:.3f}, j2={j2:.3f}, j3={j3:.3f}, j4={j4:.3f}')		#logs position to console
         
 def main(args=None):
 	rclpy.init(args=args)
